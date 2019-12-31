@@ -6,10 +6,21 @@
  * @flow
  */
 
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useState, useRef, useEffect} from 'react';
+import {View, TextInput, Alert} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {
+  Container,
+  Content,
+  Form,
+  Item,
+  Label,
+  Input,
+  Button,
+  Text,
+} from 'native-base';
+import SplashScreen from 'react-native-splash-screen';
 
 function HomeScreen() {
   return (
@@ -36,10 +47,40 @@ function AuthScreen() {
 }
 
 function SignInScreen() {
+  const [username, SetUsername] = useState('');
+  const [password, SetPassword] = useState('');
+
+  function onLogin() {
+    console.log(username, password);
+    Alert.alert('Simple Button pressed');
+  }
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>SignIn</Text>
-    </View>
+    <Container>
+      <Content>
+        <Form>
+          <Item>
+            <Label style={{color: '#000'}}>Last Name</Label>
+            <Input
+              placeholder="Username"
+              getRef={input => {
+                this.usernameRef = input;
+              }}
+            />
+          </Item>
+          <Item last>
+            <Input
+              placeholder="Password"
+              getRef={input => {
+                this.paswordRef = input;
+              }}
+            />
+          </Item>
+          <Button block onPress={onLogin}>
+            <Text>Login</Text>
+          </Button>
+        </Form>
+      </Content>
+    </Container>
   );
 }
 
@@ -65,6 +106,9 @@ const AppContainer = createAppContainer(
 );
 
 function App() {
+  useEffect(() => {
+    SplashScreen.hide();
+  });
   return <AppContainer />;
 }
 
