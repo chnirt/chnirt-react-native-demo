@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect, useContext} from 'react';
 import {View, TextInput, Alert} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
@@ -22,10 +22,22 @@ import {
 } from 'native-base';
 import SplashScreen from 'react-native-splash-screen';
 
+import Context, {CTX} from './tools/context';
+
 function HomeScreen() {
+  const authContext = useContext(CTX);
+  const {logout} = authContext;
+
+  function onLogout() {
+    logout();
+  }
+
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Home</Text>
+      <Button block onPress={onLogout}>
+        <Text>Logout</Text>
+      </Button>
     </View>
   );
 }
@@ -38,22 +50,18 @@ function OtherScreen() {
   );
 }
 
-function AuthScreen() {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>AuthScreen</Text>
-    </View>
-  );
-}
+function SignInScreen(props) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-function SignInScreen() {
-  const [username, SetUsername] = useState('');
-  const [password, SetPassword] = useState('');
+  const authContext = useContext(CTX);
+  const {authenticate} = authContext;
 
   function onLogin() {
-    console.log(username, password);
-    Alert.alert('Simple Button pressed');
+    const accessToken = username + password;
+    authenticate(accessToken);
   }
+
   return (
     <Container>
       <Content>
@@ -61,18 +69,15 @@ function SignInScreen() {
           <Item>
             <Label style={{color: '#000'}}>Last Name</Label>
             <Input
+              autoFocus={true}
               placeholder="Username"
-              getRef={input => {
-                this.usernameRef = input;
-              }}
+              onChangeText={text => setUsername(text)}
             />
           </Item>
           <Item last>
             <Input
               placeholder="Password"
-              getRef={input => {
-                this.paswordRef = input;
-              }}
+              onChangeText={text => setPassword(text)}
             />
           </Item>
           <Button block onPress={onLogin}>
@@ -84,9 +89,10 @@ function SignInScreen() {
   );
 }
 
-function AuthLoadingScreen() {
-  const isAuth = false;
-  return isAuth ? <HomeScreen /> : <SignInScreen />;
+function AuthLoadingScreen(props) {
+  const authContext = useContext(CTX);
+  const {isAuth} = authContext;
+  return isAuth ? <HomeScreen props={props} /> : <SignInScreen props={props} />;
 }
 
 const AppStack = createStackNavigator({Home: HomeScreen, Other: OtherScreen});
@@ -109,7 +115,11 @@ function App() {
   useEffect(() => {
     SplashScreen.hide();
   });
-  return <AppContainer />;
+  return (
+    <Context>
+      <AppContainer />
+    </Context>
+  );
 }
 
 export default App;
