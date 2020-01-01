@@ -6,8 +6,8 @@
  * @flow
  */
 
-import React, {useState, useRef, useEffect, useContext} from 'react';
-import {View, TextInput, Alert} from 'react-native';
+import React, {useState, useEffect, useContext} from 'react';
+import {View} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {
