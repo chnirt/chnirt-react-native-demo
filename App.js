@@ -7,7 +7,7 @@
  */
 
 import React, {useState, useEffect, useContext} from 'react';
-import {View} from 'react-native';
+import {View, ActivityIndicator, StatusBar} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {
@@ -21,20 +21,30 @@ import {
   Text,
 } from 'native-base';
 import SplashScreen from 'react-native-splash-screen';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Context, {CTX} from './tools/context';
 
-function HomeScreen() {
-  const authContext = useContext(CTX);
-  const {logout} = authContext;
+function HomeScreen(props) {
+  // const authContext = useContext(CTX);
+  // const {logout} = authContext;
 
-  function onLogout() {
-    logout();
+  async function onLogout() {
+    // logout();
+    await AsyncStorage.clear();
+    props.navigation.navigate('SignIn');
+  }
+
+  function navigateOther() {
+    props.navigation.navigate('Other');
   }
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Home</Text>
+      <Button block onPress={navigateOther}>
+        <Text>Other</Text>
+      </Button>
       <Button block onPress={onLogout}>
         <Text>Logout</Text>
       </Button>
@@ -54,12 +64,19 @@ function SignInScreen(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const authContext = useContext(CTX);
-  const {authenticate} = authContext;
+  // const authContext = useContext(CTX);
+  // const {authenticate} = authContext;
 
-  function onLogin() {
+  async function onLogin() {
     const accessToken = username + password;
-    authenticate(accessToken);
+    // authenticate(accessToken);
+    await AsyncStorage.setItem('@access_token', accessToken);
+    props.navigation.navigate('App');
+  }
+
+  function navigateSignUp() {
+    console.log(props.navigation);
+    props.navigation.navigate('SignUp');
   }
 
   return (
@@ -67,7 +84,6 @@ function SignInScreen(props) {
       <Content>
         <Form>
           <Item>
-            <Label style={{color: '#000'}}>Last Name</Label>
             <Input
               autoFocus={true}
               placeholder="Username"
@@ -80,6 +96,9 @@ function SignInScreen(props) {
               onChangeText={text => setPassword(text)}
             />
           </Item>
+          <Button block info onPress={navigateSignUp}>
+            <Text>Sign up</Text>
+          </Button>
           <Button block onPress={onLogin}>
             <Text>Login</Text>
           </Button>
@@ -89,14 +108,38 @@ function SignInScreen(props) {
   );
 }
 
+function SignUpScreen() {
+  return (
+    <View>
+      <Text>Sign Up</Text>
+    </View>
+  );
+}
+
 function AuthLoadingScreen(props) {
-  const authContext = useContext(CTX);
-  const {isAuth} = authContext;
-  return isAuth ? <HomeScreen props={props} /> : <SignInScreen props={props} />;
+  useEffect(() => {
+    _bootstrapAsync();
+  });
+
+  const _bootstrapAsync = async () => {
+    const userToken = await AsyncStorage.getItem('@access_token');
+    // console.log(userToken);
+    props.navigation.navigate(userToken ? 'App' : 'Auth');
+  };
+
+  return (
+    <View>
+      <ActivityIndicator />
+      <StatusBar barStyle="default" />
+    </View>
+  );
 }
 
 const AppStack = createStackNavigator({Home: HomeScreen, Other: OtherScreen});
-const AuthStack = createStackNavigator({SignIn: SignInScreen});
+const AuthStack = createStackNavigator({
+  SignIn: SignInScreen,
+  SignUp: SignUpScreen,
+});
 
 const AppContainer = createAppContainer(
   createSwitchNavigator(
