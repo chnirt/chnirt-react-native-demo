@@ -4,15 +4,28 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {View} from 'native-base';
 import {ActivityIndicator, StatusBar} from 'react-native';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {createDrawerNavigator} from 'react-navigation-drawer';
 
 import HomeScreen from '../containers/home';
 import OtherScreen from '../containers/other';
 import SignInScreen from '../containers/signin';
 import SignUpScreen from '../containers/signup';
 
-const AppStack = createStackNavigator(
+const AppStack = createDrawerNavigator(
   {Home: HomeScreen, Other: OtherScreen},
-  {headerMode: 'none'},
+  // {headerMode: 'none'},
+  {
+    intialRouteName: 'Home',
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#f4511e',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        color: 'white',
+      },
+    },
+  },
 );
 const AuthStack = createStackNavigator(
   {

@@ -16,8 +16,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import TabNavigator from '../../navigator/tab';
 
 function index(props) {
+  const {openDrawer} = props.navigation;
+
   async function onLogout() {
-    // logout();
     await AsyncStorage.clear();
     props.navigation.navigate('SignIn');
   }
@@ -30,7 +31,7 @@ function index(props) {
     <Container>
       <Header>
         <Left>
-          <Button transparent>
+          <Button transparent onPress={openDrawer}>
             <Icon name="menu" />
           </Button>
         </Left>
