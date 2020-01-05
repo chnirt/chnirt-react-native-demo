@@ -3,7 +3,7 @@ import {View, Text} from 'native-base';
 
 function index() {
   return (
-    <View>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Sign Up</Text>
     </View>
   );

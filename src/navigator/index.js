@@ -10,11 +10,17 @@ import OtherScreen from '../containers/other';
 import SignInScreen from '../containers/signin';
 import SignUpScreen from '../containers/signup';
 
-const AppStack = createStackNavigator({Home: HomeScreen, Other: OtherScreen});
-const AuthStack = createStackNavigator({
-  SignIn: SignInScreen,
-  SignUp: SignUpScreen,
-});
+const AppStack = createStackNavigator(
+  {Home: HomeScreen, Other: OtherScreen},
+  {headerMode: 'none'},
+);
+const AuthStack = createStackNavigator(
+  {
+    SignIn: SignInScreen,
+    SignUp: SignUpScreen,
+  },
+  {headerMode: 'none'},
+);
 
 function AuthLoadingScreen(props) {
   useEffect(() => {

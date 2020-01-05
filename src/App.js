@@ -9,8 +9,8 @@
 import React, {useEffect} from 'react';
 import SplashScreen from 'react-native-splash-screen';
 
-import Context from './src/tools/context';
-import AppContainer from './src/navigator';
+import Context from './tools/context';
+import AppContainer from './navigator';
 
 function App() {
   useEffect(() => {

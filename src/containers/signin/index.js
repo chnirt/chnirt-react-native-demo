@@ -1,6 +1,15 @@
 import React, {useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import {Container, Content, Form, Item, Input, Button, Text} from 'native-base';
+import {
+  Container,
+  Content,
+  Form,
+  Item,
+  Input,
+  Button,
+  Text,
+  View,
+} from 'native-base';
 
 function index(props) {
   const [username, setUsername] = useState('');
@@ -22,29 +31,33 @@ function index(props) {
   }
 
   return (
-    <Container>
-      <Content>
-        <Form>
-          <Item>
-            <Input
-              autoFocus={true}
-              placeholder="Username"
-              onChangeText={text => setUsername(text)}
-            />
-          </Item>
-          <Item last>
-            <Input
-              placeholder="Password"
-              onChangeText={text => setPassword(text)}
-            />
-          </Item>
-          <Button block info onPress={navigateSignUp}>
-            <Text>Sign up</Text>
-          </Button>
-          <Button block onPress={onLogin}>
-            <Text>Login</Text>
-          </Button>
-        </Form>
+    <Container style={{backgroundColor: 'white'}}>
+      <Content style={{backgroundColor: 'white'}}>
+        <View>
+          <Form>
+            <Item>
+              <Input
+                autoFocus={true}
+                placeholder="Username"
+                onChangeText={text => setUsername(text)}
+              />
+            </Item>
+            <Item last>
+              <Input
+                placeholder="Password"
+                onChangeText={text => setPassword(text)}
+              />
+            </Item>
+
+            <Button block onPress={onLogin}>
+              <Text>Login</Text>
+            </Button>
+
+            <Button block info onPress={navigateSignUp}>
+              <Text>Sign up</Text>
+            </Button>
+          </Form>
+        </View>
       </Content>
     </Container>
   );
