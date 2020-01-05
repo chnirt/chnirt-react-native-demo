@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
-  Container,
   Content,
   Form,
   Item,
@@ -9,6 +8,7 @@ import {
   Button,
   Text,
   View,
+  Label,
 } from 'native-base';
 
 function index(props) {
@@ -31,35 +31,35 @@ function index(props) {
   }
 
   return (
-    <Container style={{backgroundColor: 'white'}}>
-      <Content style={{backgroundColor: 'white'}}>
+    <Content>
+      <Content>
         <View>
           <Form>
             <Item>
+              <Label>Username</Label>
               <Input
                 autoFocus={true}
-                placeholder="Username"
                 onChangeText={text => setUsername(text)}
               />
             </Item>
             <Item last>
+              <Label>Password</Label>
               <Input
-                placeholder="Password"
+                secureTextEntry={true}
                 onChangeText={text => setPassword(text)}
               />
             </Item>
 
-            <Button block onPress={onLogin}>
-              <Text>Login</Text>
+            <Button block primary onPress={onLogin}>
+              <Text> Login </Text>
             </Button>
-
-            <Button block info onPress={navigateSignUp}>
-              <Text>Sign up</Text>
+            <Button transparent onPress={navigateSignUp}>
+              <Text> Sign Up </Text>
             </Button>
           </Form>
         </View>
       </Content>
-    </Container>
+    </Content>
   );
 }
 

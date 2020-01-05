@@ -13,6 +13,8 @@ import {
 } from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 
+import TabNavigator from '../../navigator/tab';
+
 function index(props) {
   async function onLogout() {
     // logout();
@@ -37,6 +39,7 @@ function index(props) {
         </Body>
         <Right />
       </Header>
+
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <Text>Home1</Text>
         <Button block onPress={navigateOther}>
@@ -46,6 +49,8 @@ function index(props) {
           <Text>Logout</Text>
         </Button>
       </View>
+
+      <TabNavigator />
     </Container>
   );
 }
