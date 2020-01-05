@@ -20,8 +20,7 @@ function index(props) {
 
   async function onLogin() {
     const accessToken = username + password;
-    // authenticate(accessToken);
-    await AsyncStorage.setItem('@access_token', accessToken);
+    await AsyncStorage.setItem('userToken', accessToken);
     props.navigation.navigate('App');
   }
 

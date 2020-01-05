@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, Text, Container} from 'native-base';
+import {View, Text} from 'native-base';
 
-function index(props) {
+function index() {
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home</Text>
+      <Text>Settings</Text>
     </View>
   );
 }
