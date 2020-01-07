@@ -1,43 +1,73 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
 import AsyncStorage from '@react-native-community/async-storage';
-import {View, Icon} from 'native-base';
-import {ActivityIndicator, StatusBar, Button} from 'react-native';
+import {Icon} from 'native-base';
+import {
+  Platform,
+  StyleSheet,
+  View,
+  Text,
+  ActivityIndicator,
+  StatusBar,
+  Button,
+} from 'react-native';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import SafeAreaView from 'react-native-safe-area-view';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 
+import Context, {CTX} from '../tools/context';
+
 import SignInScreen from '../containers/signin';
 import SignUpScreen from '../containers/signup';
+import OtpScreen from '../containers/otp';
 
 import HomeScreen from '../containers/home';
 import ProfileScreen from '../containers/profile';
 import SettingsScreen from '../containers/settings';
 
-const DashboardTabNavigator = createBottomTabNavigator(
-  {
-    Home: HomeScreen,
-    Profile: ProfileScreen,
-    Settings: SettingsScreen,
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
   },
-  {
-    navigationOptions: ({navigation}) => {
-      const {routeName} = navigation.state.routes[navigation.state.index];
-      return {
-        headerTitle: routeName,
-        headerLeft: (
-          <Icon
-            style={{paddingLeft: 10}}
-            onPress={() => navigation.openDrawer()}
-            name="md-menu"
-            size={30}
-          />
-        ),
-      };
-    },
+  icon: {
+    paddingLeft: 10,
   },
-);
+  iconContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    width: 120,
+  },
+});
+
+const DashboardTabNavigator = createBottomTabNavigator({
+  // Home: HomeScreen,
+  Home: OtpScreen,
+  Profile: ProfileScreen,
+  Settings: SettingsScreen,
+});
+
+DashboardTabNavigator.navigationOptions = ({navigation}) => {
+  const {routeName} = navigation.state.routes[navigation.state.index];
+  return {
+    headerTitle: routeName,
+    headerLeft: (
+      <Icon
+        style={{paddingLeft: 10}}
+        onPress={() => navigation.openDrawer()}
+        name={Platform.OS === 'ios' ? 'ios-menu' : 'md-menu'}
+        size={30}
+      />
+    ),
+    headerRight: (
+      <View style={styles.iconContainer}>
+        <Icon name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'} />
+        <Icon name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'} />
+        <Icon name={Platform.OS === 'ios' ? 'ios-more' : 'md-more'} />
+      </View>
+    ),
+  };
+};
 
 const DashboardStackNavigator = createStackNavigator({
   DashboardTabNavigator: DashboardTabNavigator,
@@ -73,9 +103,10 @@ const AppDrawerNavigator = createDrawerNavigator(
     drawerToggleRoute: 'DrawerToggle',
   },
 );
+AppDrawerNavigator;
 
 const AppStackNavigator = createDrawerNavigator(
-  {Dashboard: AppDrawerNavigator},
+  {Dashboard: AppDrawerNavigator, Otp: OtpScreen},
   {
     intialRouteName: 'Dashboard',
     navigationOptions: {
@@ -98,7 +129,7 @@ const AuthStackNavigator = createStackNavigator(
   {
     headerMode: 'none',
     contentComponent: props => (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <SafeAreaView forceInset={{top: 'always', horizontal: 'never'}}>
           {props.chilren}
         </SafeAreaView>

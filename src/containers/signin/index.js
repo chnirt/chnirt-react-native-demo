@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, {useState} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
@@ -12,21 +13,46 @@ import {
 } from 'native-base';
 
 function index(props) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const {navigation} = props;
+  const {navigate} = navigation;
+  const [email, setEmail] = useState('chin1@gmail.com');
+  const [password, setPassword] = useState('0');
 
   // const authContext = useContext(CTX);
   // const {authenticate} = authContext;
 
   async function onLogin() {
-    const accessToken = username + password;
-    await AsyncStorage.setItem('userToken', accessToken);
-    props.navigation.navigate('App');
+    // const accessToken = email + password;
+
+    return await fetch(
+      'https://nestjs-restful-best-practice.herokuapp.com/v1/login',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      },
+    )
+      .then(response => response.json())
+      .then(async res => {
+        const {accessToken, user} = res;
+        const {name, verified} = user;
+        if (verified) {
+          await AsyncStorage.setItem('userToken', accessToken);
+          navigate('App');
+        }
+        await AsyncStorage.setItem('userToken', accessToken);
+        navigate('Otp');
+      });
   }
 
   function navigateSignUp() {
-    console.log(props.navigation);
-    props.navigation.navigate('SignUp');
+    navigate('SignUp');
   }
 
   return (
@@ -35,16 +61,18 @@ function index(props) {
         <View>
           <Form>
             <Item>
-              <Label>Username</Label>
+              <Label>Email</Label>
               <Input
                 autoFocus={true}
-                onChangeText={text => setUsername(text)}
+                value={email}
+                onChangeText={text => setEmail(text)}
               />
             </Item>
             <Item last>
               <Label>Password</Label>
               <Input
                 secureTextEntry={true}
+                value={password}
                 onChangeText={text => setPassword(text)}
               />
             </Item>
