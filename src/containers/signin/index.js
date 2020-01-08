@@ -42,15 +42,11 @@ function index(props) {
     )
       .then(response => response.json())
       .then(async res => {
-        const {accessToken, user} = res;
-        const {verified} = user;
-        if (verified) {
-          // await AsyncStorage.setItem('userToken', accessToken);
-          _authenticate(accessToken);
+        if (res?.user?.verified) {
+          _authenticate(res?.accessToken);
           navigate('App');
         }
-        // await AsyncStorage.setItem('userToken', accessToken);
-        _authenticate(accessToken);
+        _authenticate(res?.accessToken);
         navigate('Otp');
       });
   }

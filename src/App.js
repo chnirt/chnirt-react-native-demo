@@ -10,11 +10,8 @@ import React from 'react';
 
 import Context from './tools/context';
 import AppContainer from './navigator';
-import {hello} from 'hello';
 
 function App() {
-  hello('asdasd');
-
   return (
     <Context>
       <AppContainer />
