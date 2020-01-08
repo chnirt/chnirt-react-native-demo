@@ -8,3 +8,5 @@
    https://www.youtube.com/watch?v=w24FE9PZpzk&t=62s
 5. Awesome React Native UI Components
    https://github.com/madhavanmalolan/awesome-reactnative-ui
+6. Sdk location not found
+   https://stackoverflow.com/questions/27620262/sdk-location-not-found-define-location-with-sdk-dir-in-the-local-properties-fil

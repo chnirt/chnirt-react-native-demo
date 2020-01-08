@@ -41,10 +41,10 @@ const styles = StyleSheet.create({
 });
 
 const DashboardTabNavigator = createBottomTabNavigator({
-  // Home: HomeScreen,
-  Home: OtpScreen,
+  Home: HomeScreen,
   Profile: ProfileScreen,
   Settings: SettingsScreen,
+  Otp: OtpScreen,
 });
 
 DashboardTabNavigator.navigationOptions = ({navigation}) => {
@@ -103,10 +103,9 @@ const AppDrawerNavigator = createDrawerNavigator(
     drawerToggleRoute: 'DrawerToggle',
   },
 );
-AppDrawerNavigator;
 
 const AppStackNavigator = createDrawerNavigator(
-  {Dashboard: AppDrawerNavigator, Otp: OtpScreen},
+  {Dashboard: AppDrawerNavigator},
   {
     intialRouteName: 'Dashboard',
     navigationOptions: {
@@ -128,13 +127,6 @@ const AuthStackNavigator = createStackNavigator(
   },
   {
     headerMode: 'none',
-    contentComponent: props => (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <SafeAreaView forceInset={{top: 'always', horizontal: 'never'}}>
-          {props.chilren}
-        </SafeAreaView>
-      </View>
-    ),
   },
 );
 

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   Content,
@@ -12,14 +12,16 @@ import {
   Label,
 } from 'native-base';
 
+import {CTX} from '../../tools/context';
+
 function index(props) {
   const {navigation} = props;
   const {navigate} = navigation;
   const [email, setEmail] = useState('chin1@gmail.com');
   const [password, setPassword] = useState('0');
 
-  // const authContext = useContext(CTX);
-  // const {authenticate} = authContext;
+  const authContext = useContext(CTX);
+  const {_authenticate} = authContext;
 
   async function onLogin() {
     // const accessToken = email + password;
@@ -41,12 +43,14 @@ function index(props) {
       .then(response => response.json())
       .then(async res => {
         const {accessToken, user} = res;
-        const {name, verified} = user;
+        const {verified} = user;
         if (verified) {
-          await AsyncStorage.setItem('userToken', accessToken);
+          // await AsyncStorage.setItem('userToken', accessToken);
+          _authenticate(accessToken);
           navigate('App');
         }
-        await AsyncStorage.setItem('userToken', accessToken);
+        // await AsyncStorage.setItem('userToken', accessToken);
+        _authenticate(accessToken);
         navigate('Otp');
       });
   }

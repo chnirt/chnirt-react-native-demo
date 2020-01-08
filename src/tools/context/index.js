@@ -13,19 +13,21 @@ export default function Store(props) {
   });
 
   const _bootstrapAsync = async () => {
-    setToken(await AsyncStorage.getItem('userToken'));
+    const userToken = await AsyncStorage.getItem('userToken');
+    setToken(userToken);
   };
 
-  const authenticate = async accessToken => {
-    await AsyncStorage.setItem('@access_token', accessToken);
+  const _authenticate = async accessToken => {
+    await AsyncStorage.setItem('userToken', accessToken);
   };
 
-  const logout = async () => {
-    await AsyncStorage.removeItem('@access_token');
+  const _logout = async () => {
+    // await AsyncStorage.removeItem('userToken');
+    await AsyncStorage.clear();
   };
 
   return (
-    <CTX.Provider value={{token, authenticate, logout}}>
+    <CTX.Provider value={{token, _authenticate, _logout}}>
       {props.children}
     </CTX.Provider>
   );
