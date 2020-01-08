@@ -6,16 +6,15 @@
  * @flow
  */
 
-import React, {useEffect} from 'react';
-// import SplashScreen from 'react-native-splash-screen';
+import React from 'react';
 
 import Context from './tools/context';
 import AppContainer from './navigator';
+import {hello} from 'hello';
 
 function App() {
-  // useEffect(() => {
-  //   SplashScreen.hide();
-  // });
+  hello('asdasd');
+
   return (
     <Context>
       <AppContainer />
