@@ -42,11 +42,12 @@ function index(props) {
     )
       .then(response => response.json())
       .then(async res => {
+        const accessToken = res?.accessToken;
+        _authenticate(accessToken);
+
         if (res?.user?.verified) {
-          _authenticate(res?.accessToken);
           navigate('App');
         }
-        _authenticate(res?.accessToken);
         navigate('Otp');
       });
   }
