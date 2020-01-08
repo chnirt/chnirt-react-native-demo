@@ -12,3 +12,5 @@
    https://stackoverflow.com/questions/27620262/sdk-location-not-found-define-location-with-sdk-dir-in-the-local-properties-fil
 7. Intellisense
    https://stackoverflow.com/questions/38791210/what-steps-need-to-be-taken-to-get-autocomplete-working-for-react-native-in-visu/38857386
+8. Optional chaining
+   https://dev.to/akirautio/optional-chaining-with-react-2l28
